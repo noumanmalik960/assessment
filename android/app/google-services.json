@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "464593792093",
+    "project_id": "assessment-task-a07f2",
+    "storage_bucket": "assessment-task-a07f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464593792093:android:164d61a2d775da619831b4",
+        "android_client_info": {
+          "package_name": "com.assessment_task"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464593792093-bta0usnban2a3eabgbo9mpgoh02p9bt6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGdWG8jWqA8fc-WPyuvotM2qC1XXEArWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464593792093-bta0usnban2a3eabgbo9mpgoh02p9bt6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "464593792093-gernqthuqosvj2fee4idb9g0uvs80513.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.assessment-task"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
