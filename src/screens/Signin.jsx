@@ -3,7 +3,7 @@ import AppInputField from '../components/molecules/AppInputField';
 import Typography from '../components/atoms/Typography';
 import {colors} from '../assets/colors';
 import AppButton from '../components/molecules/AppButton';
-import Icon from 'react-native-vector-icons/AntDesign';
+import GoogleIcon from '../components/molecules/GoogleIcon';
 
 const Signin = () => {
   return (
@@ -55,14 +55,7 @@ const Signin = () => {
           <View style={styles.line} />
         </View>
 
-        {/* Google icon */}
-        <Icon
-          name={'google'}
-          size={18}
-          color={colors.white}
-          style={styles.google_icon}
-          onPress={() => Alert.alert('Notice', 'google sign in')}
-        />
+        <GoogleIcon />
       </View>
     </SafeAreaView>
   );
@@ -98,14 +91,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     backgroundColor: colors.lightgrey,
-  },
-  google_icon: {
-    alignSelf: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 28,
-    backgroundColor: colors.red,
-    borderRadius: 12,
-    overflow: 'hidden',
   },
   signup_text: {
     flexDirection: 'row',

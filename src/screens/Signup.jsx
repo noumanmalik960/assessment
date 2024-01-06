@@ -4,6 +4,7 @@ import Typography from '../components/atoms/Typography';
 import {colors} from '../assets/colors';
 import AppButton from '../components/molecules/AppButton';
 import Icon from 'react-native-vector-icons/AntDesign';
+import GoogleIcon from '../components/molecules/GoogleIcon';
 
 const Signup = () => {
   return (
@@ -17,30 +18,34 @@ const Signup = () => {
       </View>
 
       <View style={styles.login_container}>
-        <Typography as={'heading'} text={'Welcome Back'} />
+        <Typography as={'heading'} text={'Register new account'} />
         <Typography
           as={'subheading'}
-          text={'Please log in to your account'}
+          text={'Please create a new account'}
           style={{marginBottom: 24}}
         />
         <AppInputField placeholder="Email" />
         <AppInputField placeholder="Password" secureText />
 
-        <Typography
-          style={{textAlign: 'right', color: colors.grey, marginBottom: 18}}
-          text="Forgot Password?"
-        />
+        <View style={styles.terms_container}>
+          <Icon name={'checksquare'} size={24} color={colors.green} />
+          <Typography
+            as={'caption'}
+            text={`By creating account, you agree to our Terms and Conditions`}
+            style={styles.terms_text}
+          />
+        </View>
 
         {/* SignIn button */}
         <AppButton
-          text={'Sign In'}
+          text={'Sign Up'}
           variant={'primary'}
           onPress={() => Alert.alert('hello')}
         />
 
         <View style={styles.signup_text}>
-          <Typography as={'body'} text="Don't have an account? " />
-          <Typography as={'link'} text={'Sign Up'} />
+          <Typography as={'body'} text="Already have an account? " />
+          <Typography as={'link'} text={'Sign In'} />
         </View>
 
         <View style={styles.line_container}>
@@ -55,14 +60,7 @@ const Signup = () => {
           <View style={styles.line} />
         </View>
 
-        {/* Google icon */}
-        <Icon
-          name={'google'}
-          size={18}
-          color={colors.white}
-          style={styles.google_icon}
-          onPress={() => Alert.alert('Notice', 'google sign in')}
-        />
+        <GoogleIcon />
       </View>
     </SafeAreaView>
   );
@@ -99,19 +97,21 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.lightgrey,
   },
-  google_icon: {
-    alignSelf: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 28,
-    backgroundColor: colors.red,
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
   signup_text: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 12,
+  },
+  terms_container: {
+    flexDirection: 'row',
+    marginHorizontal: 12,
+    marginBottom: 18,
+    marginTop: 12,
+    gap: 8,
+  },
+  terms_text: {
+    fontStyle: 'italic',
   },
 });
 
