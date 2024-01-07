@@ -24,7 +24,7 @@ const Signup = ({navigation}) => {
     try {
       setLoading(true);
       const res = await auth().createUserWithEmailAndPassword(
-        'jane1.doe@example.com',
+        'nouman.javed@stackone.co',
         'SuperSecretPassword!',
       );
 

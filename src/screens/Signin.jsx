@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -16,25 +16,26 @@ import GoogleIcon from '../components/molecules/GoogleIcon';
 import auth from '@react-native-firebase/auth';
 import LoadingIndicator from '../components/molecules/LoadingIndicator';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-
-GoogleSignin.configure({
-  webClientId:
-    '464593792093-c26ikvanau12qc7v7ml3tdv1ms4f0bjl.apps.googleusercontent.com',
-});
+import {GOOGLE_CLIENT_ID} from '@env';
 
 const Signin = ({navigation}) => {
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: GOOGLE_CLIENT_ID,
+    });
+  }, []);
+
   const onGoogleButtonPress = async () => {
     try {
       setLoading(true);
       // Check if your device supports Google Play
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
       // Get the users ID token
-      const {idToken} = await GoogleSignin.signIn();
-      console.log('id token: ', idToken);
+      const {idToken, user} = await GoogleSignin.signIn();
+      console.log(user?.email);
 
       // Create a Google credential with the token
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      console.log('google creds: ', googleCredential);
       // Sign-in the user with the credential
       return auth().signInWithCredential(googleCredential);
     } catch (error) {
