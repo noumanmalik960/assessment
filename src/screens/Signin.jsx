@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Image,
   Platform,
   SafeAreaView,
@@ -14,8 +15,36 @@ import AppButton from '../components/molecules/AppButton';
 import GoogleIcon from '../components/molecules/GoogleIcon';
 import auth from '@react-native-firebase/auth';
 import LoadingIndicator from '../components/molecules/LoadingIndicator';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
+GoogleSignin.configure({
+  webClientId:
+    '464593792093-c26ikvanau12qc7v7ml3tdv1ms4f0bjl.apps.googleusercontent.com',
+});
 
 const Signin = ({navigation}) => {
+  const onGoogleButtonPress = async () => {
+    try {
+      setLoading(true);
+      // Check if your device supports Google Play
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+      // Get the users ID token
+      const {idToken} = await GoogleSignin.signIn();
+      console.log('id token: ', idToken);
+
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      console.log('google creds: ', googleCredential);
+      // Sign-in the user with the credential
+      return auth().signInWithCredential(googleCredential);
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const [loading, setLoading] = useState(false);
 
   const signIn = async () => {
@@ -25,6 +54,7 @@ const Signin = ({navigation}) => {
         'jane1.doe@example.com',
         'SuperSecretPassword!',
       );
+      console.log(res?.user?.email);
       if (res.additionalUserInfo.isNewUser)
         Alert.alert('New User!', 'Welcome to the app new user!!');
     } catch (error) {
@@ -99,7 +129,7 @@ const Signin = ({navigation}) => {
           <View style={styles.line} />
         </View>
 
-        <GoogleIcon />
+        <GoogleIcon onPress={onGoogleButtonPress} />
       </View>
     </SafeAreaView>
   );

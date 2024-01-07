@@ -27,6 +27,9 @@ const Signup = ({navigation}) => {
         'jane1.doe@example.com',
         'SuperSecretPassword!',
       );
+
+      console.log(res?.user?.email);
+
       if (res.additionalUserInfo.isNewUser)
         Alert.alert('New User!', 'Welcome to the app new user!!');
     } catch (error) {
