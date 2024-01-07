@@ -15,37 +15,9 @@ import AppButton from '../components/molecules/AppButton';
 import GoogleIcon from '../components/molecules/GoogleIcon';
 import auth from '@react-native-firebase/auth';
 import LoadingIndicator from '../components/molecules/LoadingIndicator';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {GOOGLE_CLIENT_ID} from '@env';
+import {onGoogleButtonPress} from '../utils';
 
 const Signin = ({navigation}) => {
-  useEffect(() => {
-    GoogleSignin.configure({
-      webClientId: GOOGLE_CLIENT_ID,
-    });
-  }, []);
-
-  const onGoogleButtonPress = async () => {
-    try {
-      setLoading(true);
-      // Check if your device supports Google Play
-      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-      // Get the users ID token
-      const {idToken, user} = await GoogleSignin.signIn();
-      console.log(user?.email);
-
-      // Create a Google credential with the token
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      // Sign-in the user with the credential
-      return auth().signInWithCredential(googleCredential);
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Error');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const [loading, setLoading] = useState(false);
 
   const signIn = async () => {
@@ -130,7 +102,7 @@ const Signin = ({navigation}) => {
           <View style={styles.line} />
         </View>
 
-        <GoogleIcon onPress={onGoogleButtonPress} />
+        <GoogleIcon onPress={() => onGoogleButtonPress(setLoading)} />
       </View>
     </SafeAreaView>
   );

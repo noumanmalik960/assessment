@@ -16,6 +16,7 @@ import LoadingIndicator from '../components/molecules/LoadingIndicator';
 import Icon from 'react-native-vector-icons/AntDesign';
 import GoogleIcon from '../components/molecules/GoogleIcon';
 import auth from '@react-native-firebase/auth';
+import {onGoogleButtonPress} from '../utils';
 
 const Signup = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -108,7 +109,7 @@ const Signup = ({navigation}) => {
           <View style={styles.line} />
         </View>
 
-        <GoogleIcon />
+        <GoogleIcon onPress={() => onGoogleButtonPress(setLoading)} />
       </View>
     </SafeAreaView>
   );

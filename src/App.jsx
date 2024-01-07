@@ -1,8 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import AppNavigator from './navigation/AppNavigator';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {GOOGLE_CLIENT_ID} from '@env';
 
 const App = () => {
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: GOOGLE_CLIENT_ID,
+    });
+  }, []);
+
   const [initializing, setInitializing] = useState(true);
   const [isAuthenticated, setisAuthenticated] = useState();
 
