@@ -17,7 +17,7 @@ export const onGoogleButtonPress = async setLoading => {
     return auth().signInWithCredential(googleCredential);
   } catch (error) {
     console.log(error);
-    Alert.alert('Error');
+    Alert.alert('Alert', 'Cound not sign in!');
   } finally {
     setLoading(false);
   }

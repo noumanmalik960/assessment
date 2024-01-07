@@ -16,6 +16,8 @@ const Typography = ({as, text, style, ...props}) => {
         return styles.caption;
       case 'link':
         return styles.link;
+      case 'danger':
+        return styles.danger;
       default:
         return {};
     }
@@ -56,6 +58,10 @@ const styles = StyleSheet.create({
   link: {
     fontSize: 16,
     color: colors.orange,
+  },
+  danger: {
+    fontSize: 16,
+    color: colors.danger,
   },
 });
 
