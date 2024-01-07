@@ -1,14 +1,47 @@
-import {Alert, Image, SafeAreaView, StyleSheet, View} from 'react-native';
+import {useState} from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import AppInputField from '../components/molecules/AppInputField';
 import Typography from '../components/atoms/Typography';
 import {colors} from '../assets/colors';
 import AppButton from '../components/molecules/AppButton';
+import LoadingIndicator from '../components/molecules/LoadingIndicator';
 import Icon from 'react-native-vector-icons/AntDesign';
 import GoogleIcon from '../components/molecules/GoogleIcon';
+import auth from '@react-native-firebase/auth';
 
-const Signup = () => {
+const Signup = ({navigation}) => {
+  const [loading, setLoading] = useState(false);
+
+  const signUp = async () => {
+    try {
+      setLoading(true);
+      const res = await auth().createUserWithEmailAndPassword(
+        'jane1.doe@example.com',
+        'SuperSecretPassword!',
+      );
+      if (res.additionalUserInfo.isNewUser)
+        Alert.alert('New User!', 'Welcome to the app new user!!');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      {Platform.OS === 'android' ? (
+        <LoadingIndicator visible={loading} />
+      ) : null}
+
       <View style={styles.title_container}>
         <Image
           source={require('../assets/images/app-icon.png')}
@@ -17,7 +50,7 @@ const Signup = () => {
         <Typography as={'title'} text={'Hola!'} />
       </View>
 
-      <View style={styles.login_container}>
+      <View style={styles.signup_container}>
         <Typography as={'heading'} text={'Register new account'} />
         <Typography
           as={'subheading'}
@@ -31,21 +64,33 @@ const Signup = () => {
           <Icon name={'checksquare'} size={24} color={colors.green} />
           <Typography
             as={'caption'}
-            text={`By creating account, you agree to our Terms and Conditions`}
+            text={`By creating account, you agree to our\nTerms and Conditions`}
             style={styles.terms_text}
           />
         </View>
 
         {/* SignIn button */}
         <AppButton
-          text={'Sign Up'}
+          text={
+            Platform.OS === 'android' ? (
+              'Sign Up'
+            ) : loading ? (
+              <ActivityIndicator color={'black'} size={'small'} />
+            ) : (
+              'Sign Up'
+            )
+          }
           variant={'primary'}
-          onPress={() => Alert.alert('hello')}
+          onPress={signUp}
         />
 
         <View style={styles.signup_text}>
           <Typography as={'body'} text="Already have an account? " />
-          <Typography as={'link'} text={'Sign In'} />
+          <Typography
+            as={'link'}
+            text={'Sign In'}
+            onPress={() => navigation.navigate('Signin')}
+          />
         </View>
 
         <View style={styles.line_container}>
@@ -78,11 +123,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  login_container: {
+  signup_container: {
     backgroundColor: 'white',
     borderRadius: 18,
     marginHorizontal: 10,
     padding: 18,
+    marginBottom: Platform.OS === 'ios' ? 16 : 0,
   },
   line_container: {
     flexDirection: 'row',
@@ -105,7 +151,7 @@ const styles = StyleSheet.create({
   },
   terms_container: {
     flexDirection: 'row',
-    marginHorizontal: 12,
+    marginLeft: 12,
     marginBottom: 18,
     marginTop: 12,
     gap: 8,
