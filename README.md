@@ -9,3 +9,5 @@
 Firebase services uses
    1. Auth
    2. Firestore
+      
+Please contact me for env keys for Firebase.
