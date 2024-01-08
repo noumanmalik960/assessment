@@ -3,7 +3,14 @@ import React from 'react';
 import Typography from '../atoms/Typography';
 import {colors} from '../../assets/colors';
 
-const AppButton = ({text, variant, onPress, style, ...props}) => {
+const AppButton = ({
+  text,
+  variant,
+  onPress,
+  style,
+  disabled = false,
+  ...props
+}) => {
   const getButtonStyle = () => {
     switch (variant) {
       case 'primary':
@@ -17,6 +24,7 @@ const AppButton = ({text, variant, onPress, style, ...props}) => {
 
   return (
     <TouchableOpacity
+      disabled={disabled}
       style={[styles.base, getButtonStyle(), style]}
       onPress={onPress}
       {...props}>

@@ -19,19 +19,22 @@ import {onGoogleButtonPress} from '../utils';
 
 const Signin = ({navigation}) => {
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const signIn = async () => {
     try {
       setLoading(true);
-      const res = await auth().signInWithEmailAndPassword(
-        'jane1.doe@example.com',
-        'SuperSecretPassword!',
-      );
+      const res = await auth().signInWithEmailAndPassword(email, password);
 
       if (res.additionalUserInfo.isNewUser)
         Alert.alert('New User!', 'Welcome to the app new user!!');
     } catch (error) {
-      Alert.alert('Error!', 'Could not sign in.');
+      if (error?.code === 'auth/invalid-email') {
+        Alert.alert('Error!', 'Wrong email or password!');
+      } else if (error?.code === 'auth/invalid-credential') {
+        Alert.alert('Error!', 'Invalid email or password!');
+      } else Alert.alert('Error!', 'Could not sign in.');
     } finally {
       setLoading(false);
     }
@@ -58,8 +61,13 @@ const Signin = ({navigation}) => {
           text={'Please log in to your account'}
           style={{marginBottom: 24}}
         />
-        <AppInputField placeholder="Email" />
-        <AppInputField placeholder="Password" secureText />
+        <AppInputField value={email} onChange={setEmail} placeholder="Email" />
+        <AppInputField
+          value={password}
+          onChange={setPassword}
+          placeholder="Password"
+          secureText
+        />
 
         <Typography
           style={{textAlign: 'right', color: colors.grey, marginBottom: 18}}
@@ -68,6 +76,7 @@ const Signin = ({navigation}) => {
 
         {/* SignIn button */}
         <AppButton
+          disabled={email.length < 1 || password.length < 1}
           text={
             Platform.OS === 'android' ? (
               'Sign In'

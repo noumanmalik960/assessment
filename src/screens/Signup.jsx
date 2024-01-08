@@ -22,14 +22,13 @@ import {db} from '../firebase/firebase';
 
 const Signup = ({navigation}) => {
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const signUp = async () => {
     try {
       setLoading(true);
-      const res = await auth().createUserWithEmailAndPassword(
-        'jane1.doe@example.com',
-        'SuperSecretPassword!',
-      );
+      const res = await auth().createUserWithEmailAndPassword(email, password);
 
       if (res.additionalUserInfo.isNewUser) {
         Alert.alert('New User!', 'Welcome to the app new user!!');
@@ -40,7 +39,12 @@ const Signup = ({navigation}) => {
         });
       }
     } catch (error) {
-      Alert.alert('Error!', 'Could not sign up.');
+      if (error?.code === 'auth/invalid-email') {
+        Alert.alert('Error!', 'Invalid email!');
+      } else if (error?.code === 'auth/weak-password') {
+        Alert.alert('Error!', 'Password is weak!');
+      } else Alert.alert('Error!', 'Could not sign up.');
+      console.log(error?.code);
     } finally {
       setLoading(false);
     }
@@ -67,8 +71,13 @@ const Signup = ({navigation}) => {
           text={'Please create a new account'}
           style={{marginBottom: 24}}
         />
-        <AppInputField placeholder="Email" />
-        <AppInputField placeholder="Password" secureText />
+        <AppInputField value={email} onChange={setEmail} placeholder="Email" />
+        <AppInputField
+          value={password}
+          onChange={setPassword}
+          placeholder="Password"
+          secureText
+        />
 
         <View style={styles.terms_container}>
           <Icon name={'checksquare'} size={24} color={colors.green} />
@@ -81,6 +90,7 @@ const Signup = ({navigation}) => {
 
         {/* SignIn button */}
         <AppButton
+          disabled={email.length < 1 || password.length < 1}
           text={
             Platform.OS === 'android' ? (
               'Sign Up'

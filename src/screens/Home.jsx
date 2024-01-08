@@ -170,6 +170,7 @@ const Home = () => {
             transform: [{scaleX: 0.6}, {scaleY: 0.6}],
           }}
           trackColor={{false: colors.black, true: colors.black}}
+          thumbColor={!editable ? colors.white : colors.green}
           onValueChange={toggleSwitch}
           value={editable}
         />
