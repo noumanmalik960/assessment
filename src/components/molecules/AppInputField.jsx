@@ -3,7 +3,13 @@ import {StyleSheet, TextInput, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {colors} from '../../assets/colors';
 
-const InputField = ({placeholder, secureText = false}) => {
+const InputField = ({
+  placeholder,
+  secureText = false,
+  editable = true,
+  value,
+  onChange,
+}) => {
   const [showText, setShowText] = useState(secureText);
 
   return (
@@ -13,6 +19,9 @@ const InputField = ({placeholder, secureText = false}) => {
         placeholder={placeholder}
         placeholderTextColor={colors.grey}
         secureTextEntry={showText}
+        editable={editable}
+        onChangeText={onChange}
+        value={value}
       />
       {secureText ? (
         <Icon

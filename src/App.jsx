@@ -31,13 +31,3 @@ const App = () => {
 };
 
 export default App;
-
-// const isDarkMode = useColorScheme() === 'dark';
-
-// const backgroundStyle = {
-//   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-// };
-// <StatusBar
-// barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-// backgroundColor={backgroundStyle.backgroundColor}
-// />
