@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -27,11 +27,11 @@ const Signin = ({navigation}) => {
         'jane1.doe@example.com',
         'SuperSecretPassword!',
       );
-      console.log(res?.user?.email);
+
       if (res.additionalUserInfo.isNewUser)
         Alert.alert('New User!', 'Welcome to the app new user!!');
     } catch (error) {
-      console.log(error);
+      Alert.alert('Error!', 'Could not sign in.');
     } finally {
       setLoading(false);
     }
@@ -102,7 +102,7 @@ const Signin = ({navigation}) => {
           <View style={styles.line} />
         </View>
 
-        <GoogleIcon onPress={() => onGoogleButtonPress(setLoading)} />
+        <GoogleIcon onPress={onGoogleButtonPress} />
       </View>
     </SafeAreaView>
   );

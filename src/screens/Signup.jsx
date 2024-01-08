@@ -17,6 +17,8 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import GoogleIcon from '../components/molecules/GoogleIcon';
 import auth from '@react-native-firebase/auth';
 import {onGoogleButtonPress} from '../utils';
+import {collection, setDoc, doc} from 'firebase/firestore';
+import {db} from '../firebase/firebase';
 
 const Signup = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -25,16 +27,20 @@ const Signup = ({navigation}) => {
     try {
       setLoading(true);
       const res = await auth().createUserWithEmailAndPassword(
-        'nouman.javed@stackone.co',
+        'jane1.doe@example.com',
         'SuperSecretPassword!',
       );
 
-      console.log(res?.user?.email);
-
-      if (res.additionalUserInfo.isNewUser)
+      if (res.additionalUserInfo.isNewUser) {
         Alert.alert('New User!', 'Welcome to the app new user!!');
+
+        const docRef = doc(collection(db, 'users'), res?.user?.uid);
+        await setDoc(docRef, {
+          email: res?.user?.email,
+        });
+      }
     } catch (error) {
-      console.log(error);
+      Alert.alert('Error!', 'Could not sign up.');
     } finally {
       setLoading(false);
     }
@@ -109,7 +115,7 @@ const Signup = ({navigation}) => {
           <View style={styles.line} />
         </View>
 
-        <GoogleIcon onPress={() => onGoogleButtonPress(setLoading)} />
+        <GoogleIcon onPress={onGoogleButtonPress} />
       </View>
     </SafeAreaView>
   );

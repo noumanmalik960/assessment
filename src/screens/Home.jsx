@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Alert,
   Platform,
@@ -11,6 +11,11 @@ import auth from '@react-native-firebase/auth';
 import Typography from '../components/atoms/Typography';
 
 const Home = () => {
+  useEffect(() => {
+    const currentUser = auth().currentUser;
+    console.log('current user: ', currentUser?.uid);
+  }, []);
+
   const signout = () => {
     Alert.alert('Notice', 'Are you sure to sign out?', [
       {
@@ -19,10 +24,7 @@ const Home = () => {
       },
       {
         text: 'OK',
-        onPress: () =>
-          auth()
-            .signOut()
-            .then(() => console.log('User signed out!')),
+        onPress: () => auth().signOut(),
       },
     ]);
   };
